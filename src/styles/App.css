@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    background: linear-gradient(135deg, #f5f1eb 0%, #e8ddd4 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #776e65;
+  }
+  
+  #root {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .app {
+    text-align: center;
+    background: #bbada0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  .game-header {
+    margin-bottom: 20px;
+  }
+  
+  .game-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #776e65;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .game-subtitle {
+    font-size: 0.9rem;
+    color: #776e65;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+  
+  .score-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  
+  .score-box {
+    background: #cdc1b4;
+    border-radius: 8px;
+    padding: 10px 15px;
+    min-width: 80px;
+  }
+  
+  .score-label {
+    font-size: 0.8rem;
+    color: #eee4da;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .score-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #776e65;
+  }
+  
+  .new-game-button {
+    background: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .new-game-button:hover {
+    background: #9f8a76;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .new-game-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .game-board {
+    background: #bbada0;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 0 auto;
+    position: relative;
+    outline: none;
+  }
+  
+  .board-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    margin: 0 auto;
+  }
+  
+  .game-over-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(238, 228, 218, 0.95);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .game-over-text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #776e65;
+    margin-bottom: 20px;
+  }
+  
+  .game-won-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(237, 194, 46, 0.95);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .game-won-text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f9f6f2;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .continue-button {
+    background: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .continue-button:hover {
+    background: #9f8a76;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 480px) {
+    .app {
+      padding: 15px;
+    }
+    
+    .game-title {
+      font-size: 2rem;
+    }
+    
+    .board-grid {
+      height: 300px;
+      max-width: 300px;
+    }
+    
+    .score-container {
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .score-box {
+      min-width: auto;
+    }
+  }
+  
+  /* Animation classes */
+  @keyframes tileAppear {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes tileMerge {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .tile-appear {
+    animation: tileAppear 0.2s ease-out;
+  }
+  
+  .tile-merge {
+    animation: tileMerge 0.2s ease-out;
+  }
