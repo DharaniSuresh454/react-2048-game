@@ -1,55 +1,40 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_HUB_REPO = "dharanisuresh2005/react-2048-game"
-        CONTAINER_NAME = "react-2048-container"
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Git Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/DharaniSuresh454/react-2048-game'
+                git branch: 'main', url: 'https://github.com/DharaniSuresh454/react-2048-game'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t $DOCKER_HUB_REPO .'
+                    dockerImage = docker.build("react-2048-app:latest")
                 }
             }
         }
 
-        stage('Login to DockerHub') {
+        stage('Remove Old Container') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                script {
+                    sh '''
+                        if [ $(docker ps -aq -f name=react-2048-container) ]; then
+                            docker stop react-2048-container || true
+                            docker rm react-2048-container || true
+                        fi
+                    '''
                 }
             }
         }
 
-        stage('Push to DockerHub') {
+        stage('Run New Container') {
             steps {
-                sh 'docker push $DOCKER_HUB_REPO'
+                script {
+                    sh 'docker run -d --name react-2048-container -p 8081:80 react-2048-app:latest'
+                }
             }
         }
-
-        stage('Run Container') {
-    steps {
-        script {
-            // Remove old container if it exists
-            sh 'docker rm -f react-2048-container || true'
-            
-            // Run new container on port 8080
-            sh 'docker run -d --name react-2048-container -p 8080:80 $DOCKER_HUB_REPO'
-        }
-    }
-}
     }
 }
