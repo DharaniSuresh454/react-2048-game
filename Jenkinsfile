@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_REPO = "dharanisuresh2005/react-2048-game"
+        CONTAINER_NAME = "react-2048-container"
     }
 
     stages {
@@ -36,6 +37,18 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 sh 'docker push $DOCKER_HUB_REPO'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                script {
+                    // Stop and remove old container if already running
+                    sh '''
+                        docker rm -f $CONTAINER_NAME || true
+                        docker run -d --name $CONTAINER_NAME -p 80:80 $DOCKER_HUB_REPO
+                    '''
+                }
             }
         }
     }
