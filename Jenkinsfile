@@ -41,15 +41,15 @@ pipeline {
         }
 
         stage('Run Container') {
-            steps {
-                script {
-                    // Stop and remove old container if already running
-                    sh '''
-                        docker rm -f $CONTAINER_NAME || true
-                        docker run -d --name $CONTAINER_NAME -p 80:80 $DOCKER_HUB_REPO
-                    '''
-                }
-            }
+    steps {
+        script {
+            // Remove old container if it exists
+            sh 'docker rm -f react-2048-container || true'
+            
+            // Run new container on port 8080
+            sh 'docker run -d --name react-2048-container -p 8080:80 $DOCKER_HUB_REPO'
         }
+    }
+}
     }
 }
