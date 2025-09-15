@@ -4,15 +4,15 @@
     box-sizing: border-box;
   }
   
-  body {
-    font-family: 'Arial', 'Helvetica', sans-serif;
-    background: linear-gradient(135deg, #f5f1eb 0%, #e8ddd4 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #776e65;
-  }
+body {
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #776e65;
+}
   
   #root {
     width: 100%;
